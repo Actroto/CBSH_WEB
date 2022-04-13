@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CBSH Sport-day Admin</title>
+    <style>
+        label {
+            display: inline-block; width:80px
+        }
+        input, select {
+            width: 120px;
+        }
+    </style>
+</head>
+<body>
+    <script type="text/javascript" src="sport_event_list.js"></script>
+    <fieldset id="data-input">
+        <legend>반별 점수 입력</legend>
+        <label>반 코드</label><input id="gc-code" type="text"><br>
+        <!-- 아래 형식으로 불러올 것
+        <label>Name</label><input id="Namebox" type="text"><br>
+        -->
+    </fieldset>
+    <hr>
+    <fieldset id="log-input">
+        <legend>게임 로그 입력</legend>
+        <label style="width:100px;">종목 코드</label><input id="log-sport-id" type="text"><br>
+        <label style="width:100px;">승리 반 코드</label><input id="log-vic-gc" type="text"><br>
+        <label style="width:100px;">패배 반 코드</label><input id="log-def-gc" type="text"><br>
+        <label style="width:100px;">경기 종류</label><input id="log-match" type="text"><br>
+        <!-- 아래 형식으로 불러올 것
+        <label>Name</label><input id="Namebox" type="text"><br>
+        -->
+    </fieldset>
+    <hr>
+    <fieldset id="button-div">
+        <legend>Admin</legend>
+        <button id="Insbtn">INSERT</button>
+        <button id="Selbtn">SELECT</button>
+        <button id="Updbtn">UPDATE</button>
+        <button id="Delbtn">DELETE</button>
+        <button id="Logbtn" style="background-color:aqua;">MAKELOG</button>
+        <hr>
+        <label>Password</label><input type="password" id="admin-password">
+        <hr>
+        <label>System: </label><div id="system-print" style="display:inline;"></div>
+    </fieldset>
+    <script type="text/javascript">
+        // 각 종목 마다 점수 입력 칸 생성
+        const sportN = sport_event_list.length;
+        var input_div = document.getElementById("data-input");
+        var input_list = [];
+        for(var i=0;i<sportN;i++){
+            var hr_tag = document.createElement("hr");
+            var label = document.createElement("label");
+            label.innerHTML = sport_event_list_hangul[i];
+            var button = document.createElement("input");
+            button.setAttribute("id",sport_event_list[i])
+            button.type = "text";
+            var br_tag = document.createElement("br");
+            input_div.append(hr_tag,label,button,br_tag);
+        }
+        // 시스템 출력 함수 생성
+        function system_print(to_print,font_color="black"){
+            var system = document.getElementById("system-print");
+            system.style.color=font_color;
+            system.innerText=to_print;
+        }
+        system_print("Hello World")
+    </script>
+    <!--------------[imports + configuration]----------------------------------------->
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.9/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.6.9/firebase-analytics.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+      
+        // Your web app's Firebase configuration
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        const firebaseConfig = {
+          apiKey: "AIzaSyC3DnmTequ_CF45mcUQ3xEa_FElJ6Ooa8Q",
+          authDomain: "cbsh-student.firebaseapp.com",
+          databaseURL: "https://cbsh-student-default-rtdb.firebaseio.com",
+          projectId: "cbsh-student",
+          storageBucket: "cbsh-student.appspot.com",
+          messagingSenderId: "626143323152",
+          appId: "1:626143323152:web:400f8c99476b3f2485d695",
+          measurementId: "G-XZ7VMJE2J0"
+        };
+      
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+
+        import {getDatabase, ref, get, set, child, update, remove, onValue}
+        from "https://www.gstatic.com/firebasejs/9.6.9/firebase-database.js";
+
+        const db = getDatabase();
+
+        // ---------------[define] --------------------------------- //
+        var insBtn = document.getElementById("Insbtn");
+        var selBtn = document.getElementById("Selbtn");
+        var updBtn = document.getElementById("Updbtn");
+        var delBtn = document.getElementById("Delbtn");
+        var logBtn = document.getElementById("Logbtn");
+
+        var gradeClass = document.getElementById("gc-code");
+        // -------------[password check function] -------------------------- //
+        function pwCheck(){
+            var pw_tag = document.getElementById("admin-password");
+            const input_pw = pw_tag.value;
+            const real_pw = "adminpassword";
+            return input_pw == real_pw;
+        }
+        // -------------[insert data function] -------------------------- //
+
+        function InsertData(){
+            if(!pwCheck()){
+                system_print("Wrong Password","red");
+                return;
+            }
+            var input_dict = {};
+            var class_tag = document.getElementById("gc-code");
+            if(class_tag.value == ""){
+                system_print("Please Enter the Class-code","red");
+                return;
+            }
+            input_dict["gc-code"] = class_tag.value;
+            for(var i=0;i<sportN;i++){
+                var sport_id = sport_event_list[i]
+                var sport_tag = document.getElementById(sport_id)
+                if(sport_tag.value==""){
+                    system_print("Please Enter the Content: "+sport_id,"red");
+                    return;
+                }
+                input_dict[sport_id]=sport_tag.value;
+            }
+            set(ref(db,"ClassData/"+gradeClass.value),input_dict)
+            .then(()=>{
+                // alert("data stored successfully");
+                system_print("data inserted successfully");
+            })
+            .catch((error)=>{
+                alert("unsuccessful, error"+error);
+            });
+        }
+
+        // ------------[Select Data function]--------------------------- //
+        function SelectData(){
+            if(!pwCheck()){
+                system_print("Wrong Password","red");
+                return;
+            }
+            const dbref = ref(db);
+            var class_tag = document.getElementById("gc-code");
+            if(class_tag.value == ""){
+                system_print("Please Enter the Class-code","red");
+                return;
+            }
+            console.log("ClassData/"+class_tag.value);
+            get(child(dbref,"ClassData/"+class_tag.value)).then((snapshot)=>{
+                if(snapshot.exists()){
+                    var tag_list = [];
+                    for(var i=0;i<sportN;i++){
+                        var sport_id = sport_event_list[i];
+                        var input = document.getElementById(sport_id);
+                        var data = snapshot.val();
+                        input.value = data[sport_id];
+                    }
+                }
+                else{
+                    alert("No Data found");
+                }
+            })
+            .catch((error)=>{
+                alert("Unsuccessful, erro"+error);
+            });
+            system_print("data selected successfully");
+        }
+        // ------------[Update Data function]--------------------------- //
+
+        function UpdateData(){
+            if(!pwCheck()){
+                system_print("Wrong Password","red");
+                return;
+            }
+            var input_dict = {};
+            var class_tag = document.getElementById("gc-code");
+            if(class_tag.value == ""){
+                system_print("Please Enter the Class-code");
+                return;
+            }
+            for(var i=0;i<sportN;i++){
+                var sport_id = sport_event_list[i]
+                var sport_tag = document.getElementById(sport_id)
+                if(sport_tag.value==""){
+                    system_print("Please Enter the Content: "+sport_id,"red");
+                    return;
+                }
+                input_dict[sport_id]=sport_tag.value;
+            }
+            set(ref(db,"ClassData/"+gradeClass.value),input_dict)
+            .then(()=>{
+                system_print("data updated successfully");
+            })
+            .catch((error)=>{
+                alert("unsuccessful, error"+error);
+            });
+        }
+        // ------------[Delete Data function]--------------------------- //
+
+        function DeleteData(){
+            if(!pwCheck()){
+                system_print("Wrong Password","red");
+                return;
+            }
+            var class_tag = document.getElementById("gc-code");
+            if(class_tag.value == ""){
+                system_print("Please Enter the Class-code");
+            }
+            remove(ref(db,"ClassData/"+class_tag.value))
+            .then(()=>{
+                system_print("data removed successfully");
+            })
+            .catch((error)=>{
+                alert("unsuccessful, error"+error);
+            });
+        }
+        // -------------[insert log data function] -------------------------- //
+        function InsertLogData(){
+            if(!pwCheck()){
+                system_print("Wrong Password","red");
+                return;
+            }
+            // 각 칸에 입력되어있는지 확인
+            var log_sport_id = document.getElementById("log-sport-id").value;
+            var log_vic_gc = document.getElementById("log-vic-gc").value;
+            var log_def_gc = document.getElementById("log-def-gc").value;
+            var log_match = document.getElementById("log-match").value;
+            if(log_sport_id==""){
+                system_print("No log_sport_id","red");
+                return;
+            }
+            if(log_vic_gc==""){
+                system_print("No log_vic_gc","red");
+                return;
+            }
+            if(log_def_gc==""){
+                system_print("No log_def_gc","red");
+                return;
+            }
+            if(log_match==""){
+                system_print("No log_match","red");
+                return;
+            }
+            // 입력된 종목이 실제 존재하는지 확인
+            var sport_exist = false;
+            var sport_id = "";
+            for(var i=0;i<sport_event_list.length;i++){
+                if(sport_event_list_hangul[i]==log_sport_id){
+                    sport_exist = true;
+                    sport_id = sport_event_list[i];
+                    break;
+                }
+            }
+            if(!sport_exist){
+                system_print("sport_id is Wrong. Doesnt exist","red");
+                return;
+            }
+            // 로그 개수 저장
+            var logNum = 0;
+            const starCountRef = ref(db, "Sportday_log/"+sport_id);
+            onValue(starCountRef, (snapshot) => {
+                if(snapshot.exists()){
+                    // DB 데이터 받아오기
+                    const data = snapshot.val();
+                    console.log(Object.keys(data).length);
+                    logNum = Object.keys(data).length;   
+                }
+            });
+            // 다음 번호로 로그 저장
+            set(ref(db,"Sportday_log/"+sport_id+'/'+logNum),{
+                sport_id:sport_id,
+                vic_gc: log_vic_gc,
+                def_gc: log_def_gc,
+                match: log_match
+            })
+            .then(()=>{
+                system_print("log stored successfully");
+            })
+            .catch((error)=>{
+                alert("unsuccessful, error"+error);
+            });
+        }
+        // ------------[Assign Events To Btns]------------------------ //
+        insBtn.addEventListener('click',InsertData);
+        selBtn.addEventListener('click',SelectData);
+        updBtn.addEventListener('click',UpdateData);
+        delBtn.addEventListener('click',DeleteData);
+        logBtn.addEventListener('click',InsertLogData);
+      </script>
+</body>
+</html>
