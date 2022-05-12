@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CBSH Sport Day</title>
+</head>
+<body>
+    <script type="text/javascript" src="sport_event_list.js"></script>
+    <h1>충북과학고등학교 체육대회 점수판</h1>
+    <table>
+        <style>/*이 CSS는 무시*/
+            table{
+                /* width: 540px; */
+                border: 2px solid #444444;
+                border-collapse: collapse;
+                background-color:#e3f2fd;
+            }
+            thead{
+                background-color:#bbdefb;
+            }
+            th, td{
+                width:100px;
+                border: 2px solid #444444;
+                padding: 3px;
+            }
+            .grade-class{
+                background-color: cadetblue;
+            }
+        </style>
+        <caption>2022년도 점수판</caption>
+        <thead id="title_board"><!--종목들+총점-->
+            <tr id="title_board_row">
+                <th id="class">학년-반</th>
+                <!-- 아래 형태로 열 제목 생성
+                <th id="class">학년-반</th>
+                <th id="soccer">축구</th>
+                <th id="dodge-ball">피구</th>
+                ...
+                <th id="total">총점</th>
+                -->
+            </tr>
+            <!-- 종목
+            축구,피구,티볼,배드민턴,탁구,농구,단체줄넘기,줄다리기,미션 이어달리기,계주
+            -->
+        </thead>
+        <tbody id="score_board"><!--점수들 입력-->
+            <!-- 아래 형태로 각 한년-반 행을 추가
+            <tr id="1-1-class">
+                <th id="1-1">1-1</th>
+                <th id="basketball">농구</th>
+                <th id="pingpong">탁구</th>
+                <th id="total">총점</th>
+            </tr>  -->
+        </tbody>
+        <script type="module" src="client.js"></script>
+    </table>
+</body>
+</html> 

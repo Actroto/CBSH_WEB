@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>경기 로그</title>
+    <script type="text/javascript" src="sport_event_list.js"></script>
+</head>
+<body>
+    <table>
+        <style>
+            table{
+                /* width: 540px; */
+                border: 2px solid #444444;
+                border-collapse: collapse;
+                background-color:#e3f2fd;
+            }
+            thead{
+                background-color:#bbdefb;
+            }
+            th, td{
+                width:100px;
+                border: 2px solid #444444;
+                padding: 3px;
+            }
+            #match{
+                width:700px;
+            }
+            #victory_class{
+                background-color: cadetblue;
+            }
+            #defeated_class{
+                background-color: lightpink;
+            }
+            #backSport, #nextSport{
+                text-decoration:none;
+                color:black;
+            }
+        </style>
+        <caption><a id="backSport">&lt;◀</a><span id="table-title"></span><a id="nextSport">▶&gt;</a></caption>
+        <thead>
+            <tr id="column-label">
+                <th id="vic-gc">승리반</th>
+                <th id="def-gc">패배반</th>
+                <th id="match">경기 설명</th>
+            </tr>
+        </thead>
+        <tbody id="table-body-log">
+        </tbody>
+    </table>
+    <!-- connect with data base and call log -->
+    <script type="module" src="getLog.js"></script>
+    <script type="text/javascript">
+        var backBtn = document.getElementById("backSport");
+        var nextBtn = document.getElementById("nextSport");
+
+    </script>
+</body>
+</html>
