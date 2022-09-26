@@ -175,18 +175,19 @@ function readlotto(){
     const dbref = ref(db);
     get(child(dbref,"Lotto/member/"+code)).then((snapshot)=>{
         if(snapshot.exists()){
-            var user_lottos = snapshot.val();
+            var tbody = document.getElementById("ltto-tbody");
+            var user_lottos = snapshot.val()
+            // delete old row
+            var del_tr_list = document.getElementsByClassName("in-tbody");
+            for(var j=del_tr_list.length-1; j>=0; j--){
+                del_tr_list[j].remove()
+            };
             // make rows as lottos
             for(var user_scrt_code in user_lottos){
+                console.log(user_scrt_code)
                 var user_lotto = user_lottos[user_scrt_code];
                 var user_lotto_vals = user_lotto.split('-');
-                // make html tag
-                var tbody = document.getElementById("ltto-tbody");
-                // delete old row
-                var del_tr_list = document.getElementsByClassName("in-tbody");
-                for(var j=del_tr_list.length-1; j>=0; j--){
-                    del_tr_list[j].remove()
-                }
+                console.log(user_lotto_vals)
                 // create new row
                 var tr = document.createElement("tr");
                 tr.setAttribute("class","in-tbody");
