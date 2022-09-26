@@ -8,7 +8,7 @@
     <script>
         // range of each column of lotto code
         const ltto_min = 1;
-        const ltto_max = 16;
+        const ltto_max = 10;
     </script>
     <script type="module" src="server.js"></script>
     <script>
@@ -32,14 +32,14 @@
 <body>
     <center>
         <!-- - - - - - - - - - [head line] - - - - - - - - - -->
-        <img src="CBSH_logo.png2" alt="logo of CBSH" width="8%" height="8%">
+        <img src="CBSH_logo.png" alt="logo of CBSH" width="20%" height="20%">
         <h1>CBSH Lotto</h1>
         <h4 style="color: #FF8232; display:inline;">Welcom,</h4>
         <h3 id="member-name" style="color: black; display:inline;"></h3>
         <input type="button" onclick="location.href = './login.html'" value="sign out">
 
         <!-- - - - - - - - - - [input lotto code] - - - - - - - - - -->
-        <fieldset id="ltto-make-fieldset" style="width:40%;">
+        <fieldset id="ltto-make-fieldset" style="width:80%;">
             <legend align="center" style="font-size: large;">Input Lotto Code</legend>
             <style>
                 .ltto-ul-class{
@@ -117,7 +117,7 @@
             <input type="button" id="ltto-make-bttn" value="Make Lotto" style="width:30%; height:6%;">
         </fieldset>
         <!-- - - - - - - - - - [check my lotto code] - - - - - - - - - -->
-        <fieldset id="ltto-check-fieldset" style="width:30%;">
+        <fieldset id="ltto-check-fieldset" style="width:60%;">
             <legend align="center" style="font-size: large;">My Lotto Code</legend>
             <input type="button" id="ltto-check-bttn" value="update" style="width:50%; height:6%; margin:3%;">
             <table style="table-layout: fixed;">
