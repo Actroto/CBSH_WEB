@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CBSH Lotto</title>
+    <script>
+        // range of each column of lotto code
+        const ltto_min = 1;
+        const ltto_max = 10;
+    </script>
+    <script type="module" src="server.js"></script>
+    <script>
+        // --------------- [ get 요소 가져오는 함수 ] ------------------ //
+        // 파라메터 정보가 저장될 오브젝트
+        // https://stove99.tistory.com/97
+        var getParam = function(key){
+            var _parammap = {};
+            document.location.search.replace(/\??(?:([^=]+)=([^&]*)&?)/g, function () {
+                function decode(s) {
+                    return decodeURIComponent(s.split("+").join(" "));
+                }
+                _parammap[decode(arguments[1])] = decode(arguments[2]);
+            });
+            return _parammap[key];
+        };
+        var code = getParam("code");
+        // var name = getParam("name");
+    </script>
+</head>
+<body>
+    <center>
+        <!-- - - - - - - - - - [head line] - - - - - - - - - -->
+        <img src="CBSH_logo.png2" alt="logo of CBSH" width="8%" height="8%">
+        <h1>CBSH Lotto</h1>
+        <h4 style="color: #FF8232; display:inline;">Welcom,</h4>
+        <h3 id="member-name" style="color: black; display:inline;"></h3>
+        <input type="button" onclick="location.href = './login.html'" value="sign out">
+
+        <!-- - - - - - - - - - [input lotto code] - - - - - - - - - -->
+        <fieldset id="ltto-make-fieldset" style="width:40%;">
+            <legend align="center" style="font-size: large;">Input Lotto Code</legend>
+            <style>
+                .ltto-ul-class{
+                    list-style:none;
+                    margin:0;
+                    padding:0;
+                }
+                .ltto-li-class{
+                    margin:0;
+                    padding:0;
+                    border:0;
+                    float:left;
+                    width:20%;
+                }
+                .ltto-li-class *{
+                    width:80%;
+                }
+                #ltto-make-fieldset p{
+                    margin:0;
+                    padding:0;
+                    color:red;
+                }
+                #ltto-secret-code *{
+                    margin:0;
+                    padding:0;
+                }
+                #ltto-secret-code span{
+                    width:20%;
+                }
+                #ltto-secret-code input{
+                    width:30%;
+                }
+            </style>
+            <label id="ltto-secret-code">
+                <span>Secret code</span><br>
+                <span id="scrt-bool" style="font-size:small; color:red">unusable</span>
+                <input type="text" id="secret-code" placeholder="secret-code">
+                <input type="button" id="scrt-code-check-bttn" value="Check">
+            </label>
+            <hr>
+            <ul class="ltto-ul-class">
+                <li id="ltto-A" class="ltto-li-class">
+                    <label>
+                        A<br/>
+                        <input type="number" id="ltto_a" class="ltto-input">
+                    </label>
+                </li>
+                <li id="ltto-B" class="ltto-li-class">
+                    <label>
+                    B<br/>
+                        <input type="number" id="ltto_b" class="ltto-input">
+                    </label>
+                </li>
+                <li id="ltto-C" class="ltto-li-class">
+                    <label>
+                        C<br/>
+                        <input type="number" id="ltto_c" class="ltto-input">
+                    </label>
+                </li>
+                <li id="ltto-D" class="ltto-li-class">
+                    <label>
+                        D<br/>
+                        <input type="number" id="ltto_d" class="ltto-input">
+                    </label>
+                </li>
+                <li id="ltto-E" class="ltto-li-class">
+                    <label>
+                        E<br/>
+                        <input type="number" id="ltto_e" class="ltto-input">
+                    </label>
+                </li>
+            </ul>
+            <p id="p-range"></p>
+            <input type="button" id="ltto-rand-bttn" value="random" style="width:20%; height:6%;">
+            <input type="button" id="ltto-make-bttn" value="Make Lotto" style="width:30%; height:6%;">
+        </fieldset>
+        <!-- - - - - - - - - - [check my lotto code] - - - - - - - - - -->
+        <fieldset id="ltto-check-fieldset" style="width:30%;">
+            <legend align="center" style="font-size: large;">My Lotto Code</legend>
+            <input type="button" id="ltto-check-bttn" value="update" style="width:50%; height:6%; margin:3%;">
+            <table style="table-layout: fixed;">
+                <style>/*이 CSS는 무시*/
+                    table{
+                        width: 100%;
+                        border: 2px solid #444444;
+                        border-collapse: collapse;
+                        background-color:#e3f2fd;
+                    }
+                    thead{
+                        background-color:#bbdefb;
+                    }
+                    th, td{
+                        width:20%;
+                        border: 2px solid #444444;
+                        text-align: center;
+                    }
+                </style>
+                <thead>
+                    <tr>
+                        <td>A</td>
+                        <td>B</td>
+                        <td>C</td>
+                        <td>D</td>
+                        <td>E</td>
+                    </tr>
+                </thead>
+                <tbody id="ltto-tbody">
+                    <tr>
+                        <td class="in-tbody">-</td>
+                        <td class="in-tbody">-</td>
+                        <td class="in-tbody">-</td>
+                        <td class="in-tbody">-</td>
+                        <td class="in-tbody">-</td>
+                    </tr>
+                </tbody>
+            </table>
+        </fieldset>
+        <input type="button" onclick="location.href='./manual.html'" value="MANUAL">
+    </center>
+</body>
+</html>
