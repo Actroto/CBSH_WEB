@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CBSH Lotto login page</title>
+</head>
+<body>
+    <center width="100%">
+        <!-- - - - - - - - - - [head line] - - - - - - - - - -->
+        <img src="CBSH_logo.png2" alt="logo of CBSH" width="8%" height="8%">
+        <h1>CBSH Lotto</h1>
+        <h4 style="color: #FF8232;">
+            Only member of CBSH can use this site.<br>
+            Please prove that you are our member.
+        </h4>
+        <!-- - - - - - - - - - [login box] - - - - - - - - - -->
+        <fieldset style="width:30%;">
+            <legend align="center" style="font-size: large;">sign in</legend>
+            <label>
+                Your own code
+                <input type="text" id="login_code" placeholder="7707">
+            </label><br />
+            <!-- <label>
+                Your name
+                <input type="text" id="login_name" placeholder="홍길동">
+            </label><br /> -->
+            <input type="button" id="login_btn" value="LOGIN" style="width:50%; height:6%;">
+            <!-- onclick="console.log('button pushed');" -->
+        </fieldset>
+        <input type="button" onclick="location.href='./manual.html'" value="MANUAL">
+    </center>
+</body>
+<script src="settings.js"></script>
+<script>
+    // login_code,name,button
+    var lgn_code = document.getElementById("login_code");
+    // var lgn_name = document.getElementById("login_name");
+    var lgn_bttn = document.getElementById("login_btn");
+    function pass_id(){
+        var code = lgn_code.value;
+        // var name = lgn_name.value;
+        console.log(code, name);
+        // console.log(member_list[0]);
+        // if(code=="" || name==""){
+        if(code==""){
+            alert("Please insert the info.");
+            return;
+        }
+        src = "./admin.html?"+"code="+code;
+        location.href = src;
+        return;
+    }
+    lgn_bttn.onclick=pass_id;
+</script>
+</html>
