@@ -50,7 +50,7 @@ var scrt_text = document.getElementById("secret-code");
 var check_bttn = document.getElementById("scrt-code-check-bttn");
 var scrt_code;
 function checkUsableCode(){
-    scrt_code = scrt_text.value;
+    scrt_code = scrt_text.value.toLowerCase();
     const dbref = ref(db);
     var cnt = 0;
     get(child(dbref,"Lotto/code/")).then((snapshot)=>{
@@ -95,7 +95,7 @@ rand_bttn.addEventListener('click', function(){
 var make_bttn = document.getElementById("ltto-make-bttn");
 function makeLotto(){
     // check the scrt code one more
-    scrt_code = scrt_text.value;
+    scrt_code = scrt_text.value.toLowerCase();
     // check the range
     var inputs = document.getElementsByClassName("ltto-input");
     for(var i=0;i<inputs.length;i++){
@@ -191,7 +191,7 @@ function readlotto(){
                 // create new row
                 var tr = document.createElement("tr");
                 tr.setAttribute("class","in-tbody");
-                for(var j=0; j<user_lotto_vals.length; j++){
+                for(var j=0; j<user_lotto_vals.length && j<ltto_aria_num; j++){
                     var td = document.createElement("td");
                     td.innerText = user_lotto_vals[j];
                     tr.append(td);
