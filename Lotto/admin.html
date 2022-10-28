@@ -8,7 +8,8 @@
     <script>
         // range of each column of lotto code
         const ltto_min = 1;
-        const ltto_max = 10;
+        const ltto_max = 8;
+        const ltto_aria_num = 4;
     </script>
     <script type="module" src="server.js"></script>
     <script>
@@ -80,14 +81,36 @@
                 <input type="button" id="scrt-code-check-bttn" value="Check">
             </label>
             <hr>
-            <ul class="ltto-ul-class">
-                <li id="ltto-A" class="ltto-li-class">
-                    <label>
-                        A<br/>
-                        <input type="number" id="ltto_a" class="ltto-input">
-                    </label>
-                </li>
-                <li id="ltto-B" class="ltto-li-class">
+            <ul id="ltto-input-ul" class="ltto-ul-class">
+                <script>
+                    /* 이러한 형태로 넣을 것임                    
+                    <li id="ltto-A" class="ltto-li-class">
+                        <label>
+                            A<br/>
+                            <input type="number" id="ltto_a" class="ltto-input">
+                        </label>
+                    </li>
+                    */
+                    var ul = document.getElementById("ltto-input-ul");
+                    const A_int = "A".charCodeAt(0);
+                    for(var i=0;i<ltto_aria_num;i++){
+                        // info
+                        var aria_word = String.fromCharCode(A_int+i);
+                        var aria_code = "ltto-" + aria_word;
+                        // li
+                        var li = document.createElement("li");
+                        li.setAttribute("id",aria_code);
+                        li.setAttribute("class", "ltto-li-class");
+                        li.setAttribute("style","width:"+100/ltto_aria_num+"%;");
+                        // label
+                        var label = document.createElement("label");
+                        label.innerHTML = aria_word+"<br /> <input type=\"number\" id=\""+aria_code+"-input+\""+ "class=\"ltto-input\">";
+                        // put them in tags
+                        li.append(label);
+                        ul.append(li);
+                    }
+                </script>
+                <!-- <li id="ltto-B" class="ltto-li-class">
                     <label>
                     B<br/>
                         <input type="number" id="ltto_b" class="ltto-input">
@@ -110,8 +133,8 @@
                         E<br/>
                         <input type="number" id="ltto_e" class="ltto-input">
                     </label>
-                </li>
-            </ul>
+                </li> -->
+            </ul> <br />
             <p id="p-range"></p>
             <input type="button" id="ltto-rand-bttn" value="random" style="width:20%; height:6%;">
             <input type="button" id="ltto-make-bttn" value="Make Lotto" style="width:30%; height:6%;">
@@ -121,7 +144,7 @@
             <legend align="center" style="font-size: large;">My Lotto Code</legend>
             <input type="button" id="ltto-check-bttn" value="update" style="width:50%; height:6%; margin:3%;">
             <table style="table-layout: fixed;">
-                <style>/*이 CSS는 무시*/
+                <style>/* table css */
                     table{
                         width: 100%;
                         border: 2px solid #444444;
@@ -138,21 +161,48 @@
                     }
                 </style>
                 <thead>
-                    <tr>
-                        <td>A</td>
-                        <td>B</td>
-                        <td>C</td>
-                        <td>D</td>
-                        <td>E</td>
+                    <tr id="my-ltto-aria-tr">
+                        <script>
+                            /* example
+                            <td>A</td>
+                            <td>B</td>
+                            <td>C</td>
+                            ...
+                            */
+                            var tr = document.getElementById("my-ltto-aria-tr");
+                            // const A_int = "A".charCodeAt(0); // already made
+                            for(var i=0;i<ltto_aria_num;i++){
+                                // info
+                                var aria_word = String.fromCharCode(A_int+i);
+                                // td
+                                var td = document.createElement("td");
+                                td.innerText = aria_word;
+                                // put them in tags
+                                tr.append(td);
+                            }
+                        </script>
                     </tr>
                 </thead>
                 <tbody id="ltto-tbody">
-                    <tr>
-                        <td class="in-tbody">-</td>
-                        <td class="in-tbody">-</td>
-                        <td class="in-tbody">-</td>
-                        <td class="in-tbody">-</td>
-                        <td class="in-tbody">-</td>
+                    <tr id="my-ltto-number-tr">
+                        <script>
+                            /* example
+                            <td class="in-tbody">-</td>
+                            <td class="in-tbody">-</td>
+                            <td class="in-tbody">-</td>
+                            ...
+                            */
+                            var tr = document.getElementById("my-ltto-number-tr");
+                            // const A_int = "A".charCodeAt(0); // already made
+                            for(var i=0;i<ltto_aria_num;i++){
+                                // td
+                                var td = document.createElement("td");
+                                td.setAttribute("class","in-tbody");
+                                td.innerText = "-";
+                                // put them in tags
+                                tr.append(td);
+                            }
+                        </script>
                     </tr>
                 </tbody>
             </table>
